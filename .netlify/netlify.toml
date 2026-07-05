@@ -7,7 +7,7 @@ redirects = []
 [functions."*"]
 
 [build]
-publish = "/Users/youjeongkim/claude/yudit_workspace/webpage/jipsago"
+publish = "/Users/youjeongkim/claude/yudit_workspace/jipsago"
 publishOrigin = "default"
 
 [build.environment]
