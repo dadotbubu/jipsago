@@ -587,9 +587,25 @@ function resetAll() {
   try { localStorage.removeItem('home-calc'); } catch (e) {}
   location.href = location.pathname;
 }
+// 공유용 짧은 인코딩 (카톡 호환: # 대신 ?, URL-safe 문자만, 특수문자 없음)
+const SHARE_ORDER = ['a_price','a_cash','a_loan','a_rate','a_years','a_interior','a_appliance','a_moving','a_etc','b_cash','b_monthly','b_rate','b_years','b_reserve'];
+function encodeShare() {
+  const flags = [state.mode, +state.over85, state.regA, state.firstA, state.regB, state.firstB];
+  const vals = SHARE_ORDER.map(f => $(f).value.replace(/,/g, ''));
+  return flags.concat(vals).join('_');
+}
+function decodeShare(str) {
+  const p = str.split('_');
+  if (p.length < 6 || (p[0] !== 'A' && p[0] !== 'B')) return null;
+  const s = { mode: p[0], over85: p[1] === '1', regA: +p[2] || 0, firstA: +p[3] || 0, regB: +p[4] || 0, firstB: +p[5] || 0 };
+  SHARE_ORDER.forEach((f, i) => {
+    const v = p[6 + i];
+    if (v !== undefined && v !== '') s[f] = (f === 'a_rate' || f === 'b_rate') ? v : (/^\d+$/.test(v) ? Number(v).toLocaleString() : v);
+  });
+  return s;
+}
 function shareLink() {
-  const data = btoa(encodeURIComponent(JSON.stringify(snapshot())));
-  const url = location.origin + location.pathname + '#d=' + data;
+  const url = location.origin + location.pathname + '?d=' + encodeShare();
   navigator.clipboard.writeText(url).then(() => {
     const t = $('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000);
   }).catch(() => prompt('이 링크를 복사하세요:', url));
@@ -603,7 +619,11 @@ FIELDS.forEach(f => {
 
 (function init() {
   let restored = false;
-  if (location.hash.startsWith('#d=')) { try { restore(JSON.parse(decodeURIComponent(atob(location.hash.slice(3))))); restored = true; } catch (e) {} }
+  const q = new URLSearchParams(location.search).get('d');
+  if (q) { try { const s = decodeShare(q); if (s) { restore(s); restored = true; } } catch (e) {} }
+  if (!restored && location.hash.startsWith('#d=')) { // 옛 base64 링크 호환
+    try { let x = location.hash.slice(3).replace(/-/g, '+').replace(/_/g, '/'); while (x.length % 4) x += '='; restore(JSON.parse(decodeURIComponent(atob(x)))); restored = true; } catch (e) {}
+  }
   if (!restored) { try { const saved = localStorage.getItem('home-calc'); if (saved) restore(JSON.parse(saved)); } catch (e) {} }
   recalc();
 })();
