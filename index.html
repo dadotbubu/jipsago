@@ -85,8 +85,8 @@
   .seg button small { display: block; font-size: 10.5px; font-weight: 600; opacity: .8; margin-top: 1px; }
   .seg button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
 
-  .hint-note { font-size: 11.5px; color: var(--sub); margin-top: 9px; line-height: 1.5; display: flex; gap: 5px; }
-  .hint-note::before { content: "ℹ"; color: var(--gold); font-weight: 700; }
+  .hint-note { font-size: 11.5px; color: var(--warn); margin-top: 9px; line-height: 1.5; display: flex; gap: 5px; font-weight: 600; }
+  .hint-note::before { content: "⚠"; color: var(--warn); font-weight: 700; }
 
   .ltv-show { background: var(--accent-soft); color: var(--accent); border-radius: 10px; padding: 9px 12px; font-size: 12.5px; font-weight: 700; text-align: center; margin: -2px 0 14px; }
   .ltv-show b { font-size: 13.5px; }
@@ -334,7 +334,6 @@
       <div class="card">
         <h2>📋 이 가격 기준 시뮬레이션</h2>
         <div class="rows" id="b_breakdown"></div>
-        <p class="note" id="b_note"></p>
       </div>
     </div>
   </div>
@@ -530,7 +529,6 @@ function calcB() {
     ${reserve > 0 ? `<div class="row"><span class="k">부대비용 여유분</span><span class="v">${fmt(reserve)}원</span></div>` : ''}
     <div class="row total"><span class="k">매달 갚을 돈 <small>(원리금균등·원금+이자)</small></span><span class="v">${fmt(pay.m)}원</span></div>
     <div class="row sub-line"><span class="k">그중 원금 ${fmt(pay.firstPrincipal)} · 이자 ${fmt(pay.firstInterest)} <small>(첫 달)</small></span><span class="v"></span></div>`;
-  $('b_note').textContent = '실제 대출 한도는 DSR·소득에 따라 더 낮을 수 있으니 은행에 확인하세요.';
 }
 
 // ===== 상태 =====
