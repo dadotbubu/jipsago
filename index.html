@@ -176,12 +176,12 @@
 <div class="wrap">
   <header>
     <h1>🏠 내집마련 자금 계산기</h1>
-    <p>취득세·복비·대출 원리금까지 한 번에</p>
+    <p id="subtitle">취득세·복비·대출 이자까지 진짜 드는 돈을 알려줘요</p>
   </header>
 
   <div class="tabs">
     <button id="tabA" class="on" onclick="switchMode('A')">이 집 사려면 얼마?</button>
-    <button id="tabB" onclick="switchMode('B')">내 돈으로 얼마 집?</button>
+    <button id="tabB" onclick="switchMode('B')">내 돈이면 어디까지?</button>
   </div>
 
   <!-- ============ 모드 A ============ -->
@@ -554,6 +554,7 @@ function restore(s) {
 function save() { try { localStorage.setItem('home-calc', JSON.stringify(snapshot())); } catch (e) {} }
 function recalc() { calcA(); calcB(); save(); }
 
+const SUBTITLES = { A: '취득세·복비·대출 이자까지 진짜 드는 돈을 알려줘요', B: '내가 가진 돈으로 살 수 있는 최대 집값을 알려줘요' };
 function switchMode(m, silent) {
   const prev = state.mode;
   state.mode = m;
@@ -561,6 +562,7 @@ function switchMode(m, silent) {
   $('modeB').style.display = m === 'B' ? 'block' : 'none';
   $('tabA').classList.toggle('on', m === 'A');
   $('tabB').classList.toggle('on', m === 'B');
+  $('subtitle').textContent = SUBTITLES[m];
   if (!silent && prev !== m) {
     const view = $('mode' + m);
     const cls = m === 'B' ? 'anim-L' : 'anim-R';
