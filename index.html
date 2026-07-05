@@ -247,8 +247,8 @@
       <div class="grid2">
         <div class="field"><label>인테리어</label><div class="input-row"><input type="text" id="a_interior" inputmode="numeric" placeholder="0"><span class="unit">만원</span></div></div>
         <div class="field"><label>가전/가구</label><div class="input-row"><input type="text" id="a_appliance" inputmode="numeric" placeholder="0"><span class="unit">만원</span></div></div>
-        <div class="field"><label>이사비</label><div class="input-row"><input type="text" id="a_moving" inputmode="numeric" placeholder="0"><span class="unit">만원</span></div></div>
-        <div class="field"><label>기타</label><div class="input-row"><input type="text" id="a_etc" inputmode="numeric" placeholder="0"><span class="unit">만원</span></div></div>
+        <div class="field"><label>이사/입주청소비</label><div class="input-row"><input type="text" id="a_moving" inputmode="numeric" placeholder="0"><span class="unit">만원</span></div></div>
+        <div class="field"><label>등기비용·기타</label><div class="input-row"><input type="text" id="a_etc" inputmode="numeric" placeholder="0"><span class="unit">만원</span></div></div>
       </div>
     </div>
 
@@ -528,9 +528,9 @@ function calcB() {
     <div class="row"><span class="k">취득세 (부가세목 포함)</span><span class="v">${fmt(tax.total)}원</span></div>
     <div class="row"><span class="k">중개보수 (VAT 포함)</span><span class="v">${fmt(broker.feeWithVat)}원</span></div>
     ${reserve > 0 ? `<div class="row"><span class="k">부대비용 여유분</span><span class="v">${fmt(reserve)}원</span></div>` : ''}
-    <div class="row total"><span class="k">매달 갚을 돈 (원금+이자)</span><span class="v">${fmt(pay.m)}원</span></div>
+    <div class="row total"><span class="k">매달 갚을 돈 <small>(원리금균등·원금+이자)</small></span><span class="v">${fmt(pay.m)}원</span></div>
     <div class="row sub-line"><span class="k">그중 원금 ${fmt(pay.firstPrincipal)} · 이자 ${fmt(pay.firstInterest)} <small>(첫 달)</small></span><span class="v"></span></div>`;
-  $('b_note').textContent = '취득세는 85㎡ 이하 1주택 기준 · 실제 대출 한도는 DSR·소득에 따라 더 낮을 수 있으니 은행에 확인하세요.';
+  $('b_note').textContent = '실제 대출 한도는 DSR·소득에 따라 더 낮을 수 있으니 은행에 확인하세요.';
 }
 
 // ===== 상태 =====
