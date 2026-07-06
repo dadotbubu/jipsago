@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>내집마련 자금 계산기</title>
+<title>내집 마련 자금 계산기</title>
 <meta name="description" content="집 사려면 얼마 있어야 할까? 취득세·복비·시점별 자금·대출 원리금까지 한 번에 계산해보세요.">
 <style>
   :root {
@@ -175,7 +175,7 @@
   #gate { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 22px; background: var(--bg); }
   #gateForm { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 34px 24px 28px; max-width: 360px; width: 100%; text-align: center; box-shadow: 0 6px 26px rgba(50,40,30,.08); }
   .g-lock { width: 62px; height: 62px; margin: 0 auto 16px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 28px; }
-  .g-title { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; color: var(--ink); }
+  .g-title { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; color: var(--ink); }
   .g-note { font-size: 13.5px; font-weight: 700; color: var(--accent); line-height: 1.55; margin: 14px 0 6px; word-break: keep-all; }
   .g-sub { font-size: 13.5px; font-weight: 700; color: var(--accent); line-height: 1.55; margin-bottom: 20px; word-break: keep-all; }
   .g-row { display: flex; gap: 8px; }
@@ -218,7 +218,7 @@
   </div>
   <form id="gateForm" autocomplete="off">
     <div class="g-lock">🔒</div>
-    <div class="g-title">🏠 내집마련 자금 계산기</div>
+    <div class="g-title">🏠 내집 마련 자금 계산기</div>
     <p class="g-note">유디트 채널 구독자에게만 한정 제공됩니다 ✨</p>
     <p class="g-sub">블로그·DM에서 받은 비밀번호를 입력해주세요</p>
     <div class="g-row">
@@ -232,7 +232,7 @@
 
 <div class="wrap" id="wrap" style="display:none">
   <header>
-    <h1>🏠 내집마련 자금 계산기</h1>
+    <h1>🏠 내집 마련 자금 계산기</h1>
     <p id="subtitle">취득세·복비·대출 이자까지 진짜 드는 돈을 알려줘요</p>
   </header>
 
@@ -692,7 +692,7 @@ function shareLink() {
   if(window.__ydTrack) window.__ydTrack('click');
   const url = location.origin + location.pathname + '?d=' + encodeShare();
   if (navigator.share) {
-    navigator.share({ title: '내집마련 자금 계산기 결과', url }).catch(err => {
+    navigator.share({ title: '내집 마련 자금 계산기 결과', url }).catch(err => {
       // 사용자가 취소한 게 아니면 복사로 대체
       if (err && err.name !== 'AbortError') copyToClipboard(url);
     });
