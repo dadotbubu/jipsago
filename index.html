@@ -176,8 +176,9 @@
   #gateForm { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 34px 24px 28px; max-width: 360px; width: 100%; text-align: center; box-shadow: 0 6px 26px rgba(50,40,30,.08); }
   .g-lock { width: 62px; height: 62px; margin: 0 auto 16px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 28px; }
   .g-title { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; color: var(--ink); }
-  .g-note { font-size: 13.5px; font-weight: 700; color: var(--accent); line-height: 1.55; margin: 14px 0 6px; word-break: keep-all; }
-  .g-sub { font-size: 13.5px; font-weight: 700; color: var(--accent); line-height: 1.55; margin-bottom: 20px; word-break: keep-all; }
+  .g-note, .g-sub { font-size: 13.5px; font-weight: 700; color: var(--accent); line-height: 1.55; word-break: keep-all; }
+  .g-note { margin: 14px 0 6px; }
+  .g-sub { margin-bottom: 20px; }
   .g-row { display: flex; gap: 8px; }
   #pw { flex: 1; min-width: 0; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 16px; font-weight: 600; font-family: inherit; background: #fbfaf7; color: var(--ink); transition: border-color .15s; }
   #pw::placeholder { color: #c3bcb0; font-weight: 500; }
@@ -500,12 +501,11 @@ function updateLtvShow(mode) {
   const reg = state['reg' + mode], first = state['first' + mode];
   let txt = `적용 LTV <b>${Math.round(ltvOf(reg, first) * 100)}%</b>`;
   if (reg) txt += ' · 규제지역 대출 6억 한도';
-  $((mode === 'A' ? 'a' : 'b') + '_ltv_show').innerHTML = txt;
+  $(mode.toLowerCase() + '_ltv_show').innerHTML = txt;
 }
 
 // ===== 모드 A =====
 function calcA() {
-  updateLtvShow('A');
   const price = num('a_price') * MANWON;
   if (price <= 0) { $('a_result').style.display = 'none'; return; }
 
@@ -568,7 +568,6 @@ function calcA() {
 
 // ===== 모드 B =====
 function calcB() {
-  updateLtvShow('B');
   const cash = num('b_cash') * MANWON;
   if (cash <= 0) { $('b_result').style.display = 'none'; return; }
   const monthly = num('b_monthly') * MANWON;
@@ -659,8 +658,8 @@ function setArea(over85, silent) {
 function applyToggle(mode, kind, v) {
   document.querySelectorAll('#' + mode.toLowerCase() + '_' + kind + ' button').forEach(b => b.classList.toggle('on', +b.dataset[kind] === v));
 }
-function setReg(mode, v) { state['reg' + mode] = v; applyToggle(mode, 'reg', v); recalc(); }
-function setFirst(mode, v) { state['first' + mode] = v; applyToggle(mode, 'first', v); recalc(); }
+function setReg(mode, v) { state['reg' + mode] = v; applyToggle(mode, 'reg', v); updateLtvShow(mode); recalc(); }
+function setFirst(mode, v) { state['first' + mode] = v; applyToggle(mode, 'first', v); updateLtvShow(mode); recalc(); }
 function resetAll() {
   if (!confirm('입력한 내용을 모두 지울까요?')) return;
   try { localStorage.removeItem('home-calc'); } catch (e) {}
@@ -715,6 +714,7 @@ FIELDS.forEach(f => {
     try { let x = location.hash.slice(3).replace(/-/g, '+').replace(/_/g, '/'); while (x.length % 4) x += '='; restore(JSON.parse(decodeURIComponent(atob(x)))); restored = true; } catch (e) {}
   }
   if (!restored) { try { const saved = localStorage.getItem('home-calc'); if (saved) restore(JSON.parse(saved)); } catch (e) {} }
+  updateLtvShow('A'); updateLtvShow('B');
   recalc();
 })();
 
