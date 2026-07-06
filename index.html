@@ -340,7 +340,7 @@
 
   <div class="btn-row">
     <button class="btn ghost" onclick="resetAll()">초기화</button>
-    <button class="btn primary" onclick="shareLink()">결과 링크 복사</button>
+    <button class="btn primary" onclick="shareLink()">결과 링크 공유하기</button>
   </div>
 
   <footer>
@@ -603,11 +603,21 @@ function decodeShare(str) {
   });
   return s;
 }
-function shareLink() {
-  const url = location.origin + location.pathname + '?d=' + encodeShare();
+function copyToClipboard(url) {
   navigator.clipboard.writeText(url).then(() => {
     const t = $('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000);
   }).catch(() => prompt('이 링크를 복사하세요:', url));
+}
+function shareLink() {
+  const url = location.origin + location.pathname + '?d=' + encodeShare();
+  if (navigator.share) {
+    navigator.share({ title: '내집마련 자금 계산기 결과', url }).catch(err => {
+      // 사용자가 취소한 게 아니면 복사로 대체
+      if (err && err.name !== 'AbortError') copyToClipboard(url);
+    });
+  } else {
+    copyToClipboard(url);
+  }
 }
 
 FIELDS.forEach(f => {
