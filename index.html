@@ -186,6 +186,7 @@
   #gateForm button:hover { background: var(--accent-2); }
   #gateForm button:active { transform: scale(0.97); }
   .g-err { color: var(--warn); font-size: 12.5px; margin-top: 13px; min-height: 16px; font-weight: 600; }
+  .g-tip { font-size: 12px; color: var(--accent-2); font-weight: 600; line-height: 1.5; margin-top: 6px; word-break: keep-all; }
 </style>
 </head>
 <body>
@@ -193,13 +194,14 @@
   <form id="gateForm" autocomplete="off">
     <div class="g-lock">🔒</div>
     <div class="g-title">🏠 내집마련 자금 계산기</div>
-    <p class="g-note">유디트 채널 구독자에게만 한시적으로 무료로 제공하고 있어요</p>
+    <p class="g-note">유디트 채널 구독자에게만 한정 제공됩니다</p>
     <p class="g-sub">블로그·DM에서 받은 비밀번호를 입력해주세요</p>
     <div class="g-row">
       <input type="password" id="pw" placeholder="비밀번호" autocomplete="off" inputmode="text" aria-label="비밀번호">
       <button type="submit">열기</button>
     </div>
     <div class="g-err" id="gErr"></div>
+    <p class="g-tip">언제 문이 닫힐지 모르니 보일 때 바로 써보세요 ✨</p>
   </form>
 </div>
 
