@@ -693,16 +693,17 @@ FIELDS.forEach(f => {
 
 // ===== 비밀번호 게이트 =====
 const PW_HASH = '806cc7565dc15025714bd0054a4cedd963fefd785bf9970e321bb13cacae031e';
+const GATE_TTL = 24 * 60 * 60 * 1000; // 24시간 후 다시 비번 입력
 async function sha256hex(s) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
 function reveal() { $('gate').style.display = 'none'; $('wrap').style.display = 'block'; }
 $('gateForm').addEventListener('submit', async e => {
   e.preventDefault();
   const inp = $('pw'), err = $('gErr');
   const ok = (await sha256hex(inp.value.trim())) === PW_HASH;
-  if (ok) { try { localStorage.setItem('jipsago_ok', '1'); } catch (_) {} reveal(); if(window.__ydTrack) window.__ydTrack('unlock'); }
+  if (ok) { try { localStorage.setItem('jipsago_ok', String(Date.now())); } catch (_) {} reveal(); if(window.__ydTrack) window.__ydTrack('unlock'); }
   else { err.textContent = '비밀번호가 맞지 않아요. 다시 확인해주세요.'; inp.select(); }
 });
-try { if (localStorage.getItem('jipsago_ok') === '1') reveal(); } catch (_) {}
+try { const t = parseInt(localStorage.getItem('jipsago_ok') || '0', 10); if (t && Date.now() - t < GATE_TTL) reveal(); } catch (_) {}
 </script>
 </body>
 </html>
