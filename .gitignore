@@ -1,0 +1,4 @@
+.DS_Store
+
+# 배포 캐시 (재생성됨)
+.netlify/
